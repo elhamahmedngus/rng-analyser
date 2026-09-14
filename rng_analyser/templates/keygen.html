@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Key generator — RNG Analyser{% endblock %}
+{% block content %}
+
+<h1>Secure key / password generator</h1>
+<p class="lede">Every character comes from the same CSPRNG used for RNG Analyser's secure encryption keys.</p>
+
+<form method="POST" class="stack">
+    <label for="length">Length: <span id="length-value">{{ length }}</span></label>
+    <input type="range" id="length" name="length" min="4" max="64" value="{{ length }}"
+           oninput="document.getElementById('length-value').textContent = this.value">
+
+    <label class="checkbox-row">
+        <input type="checkbox" name="symbols" {% if request.form.get('symbols') %}checked{% endif %}>
+        Include symbols
+    </label>
+
+    <button type="submit" class="button button-secure">Generate</button>
+</form>
+
+{% if password %}
+<div class="panel panel-secure">
+    <p class="field-label">Generated value</p>
+    <p class="mono wrap">{{ password }}</p>
+
+    <p class="field-label">Theoretical entropy (charset × length)</p>
+    <p class="mono">{{ "%.1f"|format(theoretical_bits) }} bits — {{ label }}</p>
+
+    <p class="field-label">Observed entropy (this specific string)</p>
+    <p class="mono">{{ "%.1f"|format(bits) }} bits</p>
+</div>
+<p class="note">
+    Theoretical entropy reflects what an attacker faces before seeing anything:
+    it depends only on charset size and length. Observed entropy is a property
+    of this one generated string and will vary — it's shown for comparison,
+    not as a security measure on its own.
+</p>
+{% endif %}
+
+{% endblock %}

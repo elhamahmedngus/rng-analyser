@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Vault entry — RNG Analyser{% endblock %}
+{% block content %}
+
+<h1>Message sealed</h1>
+
+<div class="panel {{ 'panel-secure' if entry.mode == 'secure' else 'panel-warn' }}">
+    <h2>{{ "Secure mode (CSPRNG)" if entry.mode == "secure" else "Insecure mode (LCG demo)" }}</h2>
+
+    <p class="field-label">Ciphertext (base64)</p>
+    <p class="mono wrap">{{ entry.ciphertext }}</p>
+
+    {% if entry.mode == "insecure" %}
+        <p class="field-label">Session ID (this is what a real attacker would see — e.g. in a URL or log)</p>
+        <p class="mono">{{ entry.session_id }}</p>
+    {% endif %}
+</div>
+
+<div class="cta-row">
+    <a class="button button-secure" href="{{ url_for('decrypt_message', result_id=result_id) }}">Decrypt as the recipient</a>
+    {% if entry.mode == "insecure" %}
+        <a class="button button-warn" href="{{ url_for('attack_simulation', result_id=result_id) }}">Open Attack Lab</a>
+    {% endif %}
+    <a class="button button-ghost" href="{{ url_for('encrypt_message') }}">Encrypt another message</a>
+</div>
+
+{% endblock %}

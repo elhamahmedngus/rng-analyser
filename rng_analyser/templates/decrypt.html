@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Decrypt — RNG Analyser{% endblock %}
+{% block content %}
+
+<h1>Decrypting as the intended recipient</h1>
+<p class="lede">This uses the real key and nonce held by the vault — exactly how a legitimate recipient would decrypt.</p>
+
+<div class="panel panel-secure">
+    <p class="field-label">Recovered message</p>
+    {% if plaintext is not none %}
+        <p class="mono wrap">{{ plaintext }}</p>
+    {% else %}
+        <p class="error-text">{{ error }}</p>
+    {% endif %}
+</div>
+
+<div class="cta-row">
+    <a class="button button-ghost" href="{{ url_for('view_result', result_id=result_id) }}">Back to vault entry</a>
+</div>
+
+{% endblock %}

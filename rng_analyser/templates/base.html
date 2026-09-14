@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RNG Analyser{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="wordmark" href="{{ url_for('home') }}">RNG Analyser</a>
+        <nav>
+            <a href="{{ url_for('encrypt_message') }}">Encrypt a message</a>
+            <a href="{{ url_for('keygen') }}">Key generator</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="foot">
+        <span>RNG Analyser — CCS2243 Cryptography Essential individual project</span>
+    </footer>
+</body>
+</html>

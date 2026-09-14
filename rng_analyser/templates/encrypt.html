@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Encrypt — RNG Analyser{% endblock %}
+{% block content %}
+
+<h1>Encrypt a message</h1>
+<p class="lede">Your message is sealed with AES-256-GCM. Choose how the key is generated.</p>
+
+<form method="POST" class="stack">
+    <label for="plaintext">Message</label>
+    <textarea id="plaintext" name="plaintext" rows="5" placeholder="Type something to protect…" required></textarea>
+
+    <fieldset class="mode-choice">
+        <legend>Key generation mode</legend>
+
+        <label class="mode-option mode-secure">
+            <input type="radio" name="mode" value="secure" checked>
+            <div>
+                <strong>Secure — CSPRNG</strong>
+                <span>Uses Python's <code>secrets</code> module. Recommended, and the only mode safe for real use.</span>
+            </div>
+        </label>
+
+        <label class="mode-option mode-warn">
+            <input type="radio" name="mode" value="insecure">
+            <div>
+                <strong>Insecure — LCG (demo only)</strong>
+                <span>Uses a weak, predictable generator so you can try breaking it afterward in the Attack Lab.</span>
+            </div>
+        </label>
+    </fieldset>
+
+    <button type="submit" class="button button-secure">Encrypt</button>
+</form>
+
+{% endblock %}

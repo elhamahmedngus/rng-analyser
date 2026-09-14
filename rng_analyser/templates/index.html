@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}RNG Analyser — a small cryptographic vault{% endblock %}
+{% block content %}
+
+<section class="hero">
+    <h1>A vault is only as strong as the number that unlocks it.</h1>
+    <p class="lede">
+        RNG Analyser encrypts messages with real AES-256-GCM. Every key and nonce
+        it uses comes from a random number generator — and this system lets you
+        watch what happens when that generator is weak instead of strong.
+    </p>
+    <div class="cta-row">
+        <a class="button button-secure" href="{{ url_for('encrypt_message') }}">Encrypt a message</a>
+        <a class="button button-ghost" href="{{ url_for('keygen') }}">Try the key generator</a>
+    </div>
+</section>
+
+<section class="grid-two">
+    <div class="panel panel-secure">
+        <h2>Secure mode</h2>
+        <p>
+            Keys and nonces are generated with Python's <code>secrets</code> module —
+            a cryptographically secure RNG. There is no shortcut from any public
+            value back to the key.
+        </p>
+    </div>
+    <div class="panel panel-warn">
+        <h2>Insecure mode (for the demo)</h2>
+        <p>
+            Keys are derived from a Linear Congruential Generator, the same class
+            of weak RNG behind several real historical key-generation failures.
+            Encrypt a message in this mode, then open the Attack Lab to see it
+            broken using nothing but a single leaked value.
+        </p>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Why this matters</h2>
+    <p>
+        AES-256-GCM is not broken by trying every key — the keyspace is far too
+        large. Attackers who succeed almost never break the cipher itself; they
+        find a shortcut to the key. A predictable RNG is one of the most common
+        shortcuts in real software, which is why key generation deserves as much
+        scrutiny as the encryption algorithm wrapped around it.
+    </p>
+</section>
+
+{% endblock %}

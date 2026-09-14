@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Attack Lab — RNG Analyser{% endblock %}
+{% block content %}
+
+<h1>Attack Lab</h1>
+
+{% if not possible %}
+    <div class="panel panel-secure">
+        <p>
+            This vault entry was sealed in <strong>secure mode</strong>. There is no
+            session ID or other public value that leads back to the key — this
+            attack does not apply here.
+        </p>
+    </div>
+{% else %}
+    <p class="lede">
+        This page acts as the attacker. It is given <strong>only</strong> the
+        ciphertext and the session ID shown on the vault entry — nothing else.
+    </p>
+
+    <div class="panel panel-warn">
+        <h2>What the attacker sees</h2>
+        <p class="field-label">Ciphertext</p>
+        <p class="mono wrap">{{ entry.ciphertext }}</p>
+        <p class="field-label">Leaked session ID</p>
+        <p class="mono">{{ entry.session_id }}</p>
+    </div>
+
+    <div class="panel panel-warn">
+        <h2>What the attacker computes</h2>
+        <p>
+            The session ID is not just a label — it <em>is</em> the generator's
+            internal state at that moment. Because the LCG's formula and
+            constants are public, restarting the same generator from this state
+            reproduces the exact key that followed it.
+        </p>
+        <p class="field-label">Recovered key (attacker-derived, hex)</p>
+        <p class="mono wrap">{{ recovered_key }}</p>
+    </div>
+
+    <div class="panel {{ 'panel-warn' if plaintext else 'panel-secure' }}">
+        <h2>Result</h2>
+        {% if plaintext %}
+            <p class="field-label">Decrypted message</p>
+            <p class="mono wrap">{{ plaintext }}</p>
+            <p class="error-text">The attack succeeded — the message is fully readable.</p>
+        {% else %}
+            <p>The recovered key did not decrypt the message.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="cta-row">
+    <a class="button button-ghost" href="{{ url_for('view_result', result_id=result_id) }}">Back to vault entry</a>
+</div>
+
+{% endblock %}
