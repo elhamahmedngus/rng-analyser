@@ -1,7 +1,4 @@
 # RNG Analyser
-# RNG Analyser Project
-This project demonstrates secure vs insecure RNG in AES-256-GCM.
-
 
 A small working cryptographic system: real AES-256-GCM encryption, with a
 built-in comparison between a secure key generator (CSPRNG) and a weak one
