@@ -1,4 +1,4 @@
-# RNG Analyser
+# RNG Analyser https://rng-analyser.onrender.com/
 
 A small working cryptographic system: real AES-256-GCM encryption, with a
 built-in comparison between a secure key generator (CSPRNG) and a weak one
@@ -34,14 +34,4 @@ Then open **http://127.0.0.1:5000** in your browser.
    and decrypts your message.
 3. **Key generator page** — generate a password and see its entropy in bits.
 
-## Why this satisfies the assignment
 
-- It's a genuine cryptographic system, not a simulator: AES-256-GCM is real
-  (via the `cryptography` library), and both success and failure paths
-  (wrong key, tampered ciphertext) are handled correctly.
-- It demonstrates conceptual understanding, not just tool use: the "Attack
-  Lab" proves *why* RNG quality matters for security, using a real (if
-  simplified) instance of a known vulnerability class.
-- Key/data handling is deliberate: the secure path never exposes key
-  material; the insecure path is explicitly labeled as a demo and only
-  leaks what a realistic attacker would actually see.
